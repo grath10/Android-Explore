@@ -78,6 +78,14 @@ public class PahoMqttClient {
         client.publish(topic, message);
     }
 
+    public void publishSpecialMessage(@NonNull MqttAndroidClient client, @NonNull byte[] payload, int qos, @NonNull String topic)
+            throws MqttException, UnsupportedEncodingException{
+        MqttMessage message = new MqttMessage(payload);
+        message.setRetained(true);
+        message.setQos(qos);
+        client.publish(topic, message);
+    }
+
     public void publishVoiceMessage(@NonNull MqttAndroidClient client, @NonNull String msg, int qos, @NonNull String topic)
             throws MqttException, UnsupportedEncodingException{
         int size = msg.length();
