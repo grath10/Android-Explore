@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        Log.i(TAG, view.getId() + "");
         Intent intent;
         switch (view.getId()){
             case R.id.broadcast:
@@ -38,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.feedback:
+                intent = new Intent(MainActivity.this, FeedbackActivity.class);
+                startActivity(intent);
                 break;
             case  R.id.history:
                 break;

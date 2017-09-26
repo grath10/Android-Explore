@@ -3,6 +3,9 @@
           package="com.example.dell.app">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
@@ -26,6 +29,15 @@
         <activity android:name=".MainActivity">
         </activity>
         <activity android:name=".BroadcastActivity">
+        </activity>
+
+        <service android:name="org.eclipse.paho.android.service.MqttService"/>
+        <service
+                android:name=".MqttMessageService"
+                android:enabled="true"
+                android:exported="false"/>
+
+        <activity android:name=".FeedbackActivity">
         </activity>
     </application>
 
