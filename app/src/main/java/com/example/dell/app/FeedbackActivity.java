@@ -14,16 +14,13 @@ import android.widget.TextView;
 
 import com.example.dell.app.utils.Constants;
 
-import org.eclipse.paho.android.service.MqttAndroidClient;
-
 public class FeedbackActivity extends AppCompatActivity {
     private static final String TAG = "FeedbackActivity";
     private String[] items = new String[]{"61780001:2", "61780002:6"};
     private Button control_btn;
     private Spinner client_picker;
     private LinearLayout outerLayout;
-    private PahoMqttClient client;
-    private MqttAndroidClient androidClient;
+    private SingletonMqttClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +46,7 @@ public class FeedbackActivity extends AppCompatActivity {
                 dispatchControlMessages(clientId, states);
             }
         });
+        client = ClientManager.getInstance(getApplicationContext());
         initSpinner();
     }
 
@@ -117,7 +115,7 @@ public class FeedbackActivity extends AppCompatActivity {
             payloadArr[13] = (byte)(i + 1);
             payloadArr[15] = state[i];
             try {
-                client.publishSpecialMessage(androidClient, payloadArr, 1, Constants.TOPIC_BACKWARD_CONTROL);
+                client.publishSpecialMessage(payloadArr, 1, Constants.TOPIC_BACKWARD_CONTROL);
             }catch (Exception e){
                 e.printStackTrace();
             }

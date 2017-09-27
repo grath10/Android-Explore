@@ -7,12 +7,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.dell.app.utils.Constants;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private static final String TAG = "MainActivity";
     private Button btn_broadcast;
     private Button btn_version;
     private Button btn_feedback;
     private Button btn_history;
+    private SingletonMqttClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_history.setOnClickListener(this);
         btn_feedback = (Button)findViewById(R.id.feedback);
         btn_feedback.setOnClickListener(this);
+        client = ClientManager.getInstance(getApplicationContext());
     }
 
     @Override

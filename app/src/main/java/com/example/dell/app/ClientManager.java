@@ -1,11 +1,13 @@
 package com.example.dell.app;
 
-public class ClientManager {
-    private static PahoMqttClient client;
+import android.content.Context;
 
-    public static PahoMqttClient getInstance(){
+public class ClientManager {
+    private static SingletonMqttClient client;
+
+    public static SingletonMqttClient getInstance(Context context){
         if(client == null){
-            client = new PahoMqttClient();
+            client = new SingletonMqttClient(context);
         }
         return client;
     }

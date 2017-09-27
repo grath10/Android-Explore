@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.example.dell.app.utils.Constants;
+
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.DisconnectedBufferOptions;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
@@ -18,11 +20,11 @@ public class SingletonMqttClient {
     private static final String TAG = "SingletonMqttClient";
     private MqttAndroidClient mqttAndroidClient;
 
-    private MqttAndroidClient (){
-
+    public SingletonMqttClient(Context context){
+        getMqttClient(context, Constants.MQTT_BROKER_URL, Constants.CLIENT_ID);
     }
 
-    public MqttAndroidClient getMqttClient(Context context, String brokerUrl, String clientId) {
+    private void getMqttClient(Context context, String brokerUrl, String clientId) {
         mqttAndroidClient = new MqttAndroidClient(context, brokerUrl, clientId);
         try{
             IMqttToken token = mqttAndroidClient.connect(getMqttConnectionOption());
@@ -41,7 +43,6 @@ public class SingletonMqttClient {
         }catch (MqttException e){
             e.printStackTrace();
         }
-        return mqttAndroidClient;
     }
 
     public void disconnect() throws MqttException{

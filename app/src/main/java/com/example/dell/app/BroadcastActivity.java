@@ -14,19 +14,16 @@ public class BroadcastActivity extends AppCompatActivity implements View.OnClick
     private static final String TAG = "BroadcastActivity";
     private Button btn_sendMsg;
     private EditText et_messages;
-    private MqttAndroidClient mqttAndroidClient;
-    private PahoMqttClient pahoMqttClient;
+    private SingletonMqttClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_broadcast);
-        pahoMqttClient = ClientManager.getInstance();
+        client = ClientManager.getInstance(getApplicationContext());
         et_messages = (EditText) findViewById(R.id.message_broadcast);
         btn_sendMsg = (Button) findViewById(R.id.send_broadcast);
         btn_sendMsg.setOnClickListener(this);
-
-        mqttAndroidClient = pahoMqttClient.getMqttClient(getApplicationContext(), Constants.MQTT_BROKER_URL, Constants.CLIENT_ID);
         Intent intent = new Intent(BroadcastActivity.this, MqttMessageService.class);
         startService(intent);
     }
@@ -44,7 +41,7 @@ public class BroadcastActivity extends AppCompatActivity implements View.OnClick
                     // 发送时手动进行转码处理
                     String payload = prefix + getGBKEncoding(msg);
                     Log.i(TAG, payload);
-                    pahoMqttClient.publishVoiceMessage(mqttAndroidClient, payload, 1, Constants.TOPIC_BROADCAST);
+                    client.publishVoiceMessage(payload, 1, Constants.TOPIC_BROADCAST);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
