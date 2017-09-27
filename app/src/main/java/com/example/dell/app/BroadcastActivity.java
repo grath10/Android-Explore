@@ -21,7 +21,7 @@ public class BroadcastActivity extends AppCompatActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_broadcast);
-        pahoMqttClient = new PahoMqttClient();
+        pahoMqttClient = ClientManager.getInstance();
         et_messages = (EditText) findViewById(R.id.message_broadcast);
         btn_sendMsg = (Button) findViewById(R.id.send_broadcast);
         btn_sendMsg.setOnClickListener(this);

@@ -3,14 +3,24 @@ package com.example.dell.app;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
+
 import org.eclipse.paho.android.service.MqttAndroidClient;
-import org.eclipse.paho.client.mqttv3.*;
+import org.eclipse.paho.client.mqttv3.DisconnectedBufferOptions;
+import org.eclipse.paho.client.mqttv3.IMqttActionListener;
+import org.eclipse.paho.client.mqttv3.IMqttToken;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.io.UnsupportedEncodingException;
 
-public class PahoMqttClient {
-    private static final String TAG = "PahoMqttClient";
+public class SingletonMqttClient {
+    private static final String TAG = "SingletonMqttClient";
     private MqttAndroidClient mqttAndroidClient;
+
+    private MqttAndroidClient (){
+
+    }
 
     public MqttAndroidClient getMqttClient(Context context, String brokerUrl, String clientId) {
         mqttAndroidClient = new MqttAndroidClient(context, brokerUrl, clientId);
@@ -34,8 +44,8 @@ public class PahoMqttClient {
         return mqttAndroidClient;
     }
 
-    public void disconnect(@NonNull MqttAndroidClient client) throws MqttException{
-        IMqttToken mqttToken = client.disconnect();
+    public void disconnect() throws MqttException{
+        IMqttToken mqttToken = mqttAndroidClient.disconnect();
         mqttToken.setActionCallback(new IMqttActionListener() {
             @Override
             public void onSuccess(IMqttToken asyncActionToken) {
@@ -70,24 +80,24 @@ public class PahoMqttClient {
         return mqttConnectOptions;
     }
 
-    public void publishMessage(@NonNull MqttAndroidClient client, @NonNull String msg, int qos, @NonNull String topic)
+    public void publishMessage(@NonNull String msg, int qos, @NonNull String topic)
         throws MqttException, UnsupportedEncodingException{
         byte[] encodedPayload = msg.getBytes("UTF-8");
         MqttMessage message = new MqttMessage(encodedPayload);
         message.setRetained(true);
         message.setQos(qos);
-        client.publish(topic, message);
+        mqttAndroidClient.publish(topic, message);
     }
 
-    public void publishSpecialMessage(@NonNull MqttAndroidClient client, @NonNull byte[] payload, int qos, @NonNull String topic)
+    public void publishSpecialMessage(@NonNull byte[] payload, int qos, @NonNull String topic)
             throws MqttException, UnsupportedEncodingException{
         MqttMessage message = new MqttMessage(payload);
         message.setRetained(true);
         message.setQos(qos);
-        client.publish(topic, message);
+        mqttAndroidClient.publish(topic, message);
     }
 
-    public void publishVoiceMessage(@NonNull MqttAndroidClient client, @NonNull String msg, int qos, @NonNull String topic)
+    public void publishVoiceMessage(@NonNull String msg, int qos, @NonNull String topic)
             throws MqttException, UnsupportedEncodingException{
         int size = msg.length();
         byte[] payloadArr = new byte[size];
@@ -103,11 +113,11 @@ public class PahoMqttClient {
         MqttMessage message = new MqttMessage(payloadArr);
         message.setRetained(true);
         message.setQos(qos);
-        client.publish(topic, message);
+        mqttAndroidClient.publish(topic, message);
     }
 
-    public void subscribe(@NonNull MqttAndroidClient client, @NonNull final String topic, int qos) throws MqttException {
-        IMqttToken token = client.subscribe(topic, qos);
+    public void subscribe(@NonNull final String topic, int qos) throws MqttException {
+        IMqttToken token = mqttAndroidClient.subscribe(topic, qos);
         token.setActionCallback(new IMqttActionListener() {
             @Override
             public void onSuccess(IMqttToken asyncActionToken) {
@@ -121,8 +131,8 @@ public class PahoMqttClient {
         });
     }
 
-    public void unSubscribe(@NonNull MqttAndroidClient client, @NonNull final String topic) throws MqttException{
-        IMqttToken token = client.unsubscribe(topic);
+    public void unSubscribe(@NonNull final String topic) throws MqttException{
+        IMqttToken token = mqttAndroidClient.unsubscribe(topic);
         token.setActionCallback(new IMqttActionListener() {
             @Override
             public void onSuccess(IMqttToken asyncActionToken) {
