@@ -9,4 +9,5 @@ public class Constants {
     public static final String TOPIC_DISPATCH_PARAMS = "A/PM";  // 下发参数
     public static final String TOPIC_SHORT_CMD = "A/PA";    // 短命令订阅
     public static final String TOPIC_SUBSCRIBE = "A/+";
+    public static final String TOPIC_VERSION = "X/VR";  // 查询版本
 }

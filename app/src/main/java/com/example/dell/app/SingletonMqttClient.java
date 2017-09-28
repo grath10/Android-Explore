@@ -9,7 +9,10 @@ import com.example.dell.app.utils.Constants;
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.DisconnectedBufferOptions;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
+import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -24,7 +27,7 @@ public class SingletonMqttClient {
         getMqttClient(context, Constants.MQTT_BROKER_URL, Constants.CLIENT_ID);
     }
 
-    private void getMqttClient(Context context, String brokerUrl, String clientId) {
+    private void getMqttClient(Context context, final String brokerUrl, String clientId) {
         mqttAndroidClient = new MqttAndroidClient(context, brokerUrl, clientId);
         try{
             IMqttToken token = mqttAndroidClient.connect(getMqttConnectionOption());
@@ -32,12 +35,12 @@ public class SingletonMqttClient {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
                     mqttAndroidClient.setBufferOpts(getDisconnectedBufferOptions());
-                    Log.d(TAG, "成功");
+                    Log.d(TAG, "success");
                 }
 
                 @Override
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    Log.e(TAG, "失败" + exception.toString());
+                    Log.e(TAG, "failure" + exception.toString());
                 }
             });
         }catch (MqttException e){
@@ -146,4 +149,9 @@ public class SingletonMqttClient {
             }
         });
     }
+
+    public void processMessage(MqttCallbackExtended callbackExtended){
+        mqttAndroidClient.setCallback(callbackExtended);
+    }
+
 }

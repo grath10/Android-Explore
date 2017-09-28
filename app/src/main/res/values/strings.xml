@@ -19,6 +19,8 @@
     <string name="app_broadcast">广播消息</string>
     <string name="app_broadcast_hint">输入待广播消息</string>
     <string name="app_query_version">查询版本</string>
+    <string name="app_version">版本信息: </string>
     <string name="app_feedback">反向控制</string>
+    <string name="app_clientId">客户端编号</string>
 </resources>
 

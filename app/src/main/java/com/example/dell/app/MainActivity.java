@@ -15,7 +15,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btn_version;
     private Button btn_feedback;
     private Button btn_history;
-    private SingletonMqttClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,28 +28,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_history.setOnClickListener(this);
         btn_feedback = (Button)findViewById(R.id.feedback);
         btn_feedback.setOnClickListener(this);
-        client = ClientManager.getInstance(getApplicationContext());
     }
 
     @Override
     public void onClick(View view) {
-        Intent intent;
+        Intent intent = null;
         switch (view.getId()){
             case R.id.broadcast:
                 intent = new Intent(MainActivity.this, BroadcastActivity.class);
-                startActivity(intent);
                 break;
             case R.id.feedback:
                 intent = new Intent(MainActivity.this, FeedbackActivity.class);
-                startActivity(intent);
                 break;
             case  R.id.history:
+                intent = new Intent(MainActivity.this, HistoryActivity.class);
                 break;
             case R.id.query_version:
+                intent = new Intent(MainActivity.this, VersionActivity.class);
                 break;
             default:
                 break;
         }
+        startActivity(intent);
     }
 
     @Override
