@@ -3,11 +3,8 @@ package com.example.dell.app;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-
-import com.example.dell.app.utils.Constants;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private static final String TAG = "MainActivity";
@@ -41,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 intent = new Intent(MainActivity.this, FeedbackActivity.class);
                 break;
             case  R.id.history:
-                intent = new Intent(MainActivity.this, HistoryActivity.class);
+                intent = new Intent(MainActivity.this, HistoryConditionActivity.class);
                 break;
             case R.id.query_version:
                 intent = new Intent(MainActivity.this, VersionActivity.class);

@@ -36,8 +36,9 @@
             android:exported="false" />
 
         <activity android:name=".FeedbackActivity" />
-        <activity android:name=".HistoryActivity" />
-        <activity android:name=".VersionActivity"></activity>
+        <activity android:name=".HistoryConditionActivity" />
+        <activity android:name=".VersionActivity" />
+        <activity android:name=".HistoryDataActivity"></activity>
     </application>
 
 </manifest>

@@ -24,8 +24,6 @@ public class BroadcastActivity extends AppCompatActivity implements View.OnClick
         et_messages = (EditText) findViewById(R.id.message_broadcast);
         btn_sendMsg = (Button) findViewById(R.id.send_broadcast);
         btn_sendMsg.setOnClickListener(this);
-        Intent intent = new Intent(BroadcastActivity.this, MqttMessageService.class);
-        startService(intent);
     }
 
     @Override
